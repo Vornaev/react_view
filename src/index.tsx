@@ -16,7 +16,9 @@ type ReactViewProps = {
   style: ViewStyle;
 };
 
-const ComponentName = 'ReactViewView';
+
+const ComponentName = 'TestFragmentManager';
+
 
 export const ReactViewView =
   UIManager.getViewManagerConfig(ComponentName) != null

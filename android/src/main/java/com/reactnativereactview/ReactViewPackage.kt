@@ -1,4 +1,5 @@
 package com.reactnativereactview
+import com.embet.TestFragmentManager
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
@@ -11,6 +12,6 @@ class ReactViewPackage : ReactPackage {
     }
 
     override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
-        return listOf(ReactViewViewManager())
+        return listOf(ReactViewViewManager(), TestFragmentManager(reactContext) )
     }
 }
