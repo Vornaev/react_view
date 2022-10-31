@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     
-      <ReactViewView clientId = "viktor"  style={{   
+      <ReactViewView  style={{   
                   display:'flex',
                   justifyContent:'center',
                    backgroundColor:'#000',
