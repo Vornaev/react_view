@@ -5,7 +5,7 @@ buildscript {
   repositories {
       google()
       mavenCentral()
-    maven {url 'https://jitpack.io'}
+       maven {url 'https://jitpack.io'}
   }
 
   dependencies {
@@ -62,6 +62,7 @@ android {
 repositories {
   mavenCentral()
   google()
+  maven { url "https://jitpack.io" }
 
   def found = false
   def defaultDir = null
@@ -134,7 +135,8 @@ def kotlin_version = getExtOrDefault('kotlinVersion')
 dependencies {
     //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
-  implementation 'com.livelike:embet-android-sdk:0.0.11-test'
+//  implementation 'com.livelike:embet-android-sdk:0.0.11-test'
+  implementation 'com.livelike:embet-android-sdk:react-test-0.1'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
 // From node_modules

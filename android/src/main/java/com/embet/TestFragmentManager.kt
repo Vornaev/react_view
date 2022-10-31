@@ -1,24 +1,35 @@
 package com.embet
 
 import android.graphics.Color
+import android.util.Log
 import android.view.Choreographer
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
+import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.uimanager.annotations.ReactPropGroup
 import com.facebook.react.views.image.ReactImageView
+import com.livelike.mobile.embet.data.EmBetSDKConfig
+import com.livelike.mobile.embet.data.internal.EmBetSDK
+import com.livelike.mobile.embet.fragment.EmBetReactWidgetFragment
+import com.livelike.mobile.embet.publicapi.EmBetAccessTokenDelegate
+import com.livelike.mobile.embet.publicapi.EmBetInstance
+import com.livelike.mobile.embet.publicapi.ProgramSession
 
 class TestFragmentManager(
   private val reactContext: ReactApplicationContext
 ) : ViewGroupManager<FrameLayout>() {
   private var propWidth: Int? = null
   private var propHeight: Int? = null
+
+  private var sdkConfig : EmBetSDKConfig? = null
 
   override fun getName() = "TestFragmentManager"
 
@@ -50,6 +61,26 @@ class TestFragmentManager(
     }
   }
 
+  @ReactProp(name = "clientID")
+  fun setClientID(view : FrameLayout, clientID:String){
+
+
+  }
+
+  @ReactProp(name = "programID")
+  fun setProgramID(view : FrameLayout, programID:String){
+    Log.i("hello", "$programID")
+  }
+
+
+//  @ReactProp(name = "segmentationFeature")
+//  fun setSegmentation(view : FrameLayout, segmentation:String){
+//
+//    segmentation.toLowerCase()
+//    //of or on
+//
+//  }
+
   @ReactPropGroup(names = ["width", "height"], customType = "Style")
   fun setStyle(view: FrameLayout, index: Int, value: Int) {
     if (index == 0) propWidth = value
@@ -63,12 +94,22 @@ class TestFragmentManager(
     val parentView = root.findViewById<ViewGroup>(reactNativeViewId)
     setupLayout(parentView)
 
-    val myFragment = TestFragment()
+    val myFragment = EmBetReactWidgetFragment()
+
+
     val activity = reactContext.currentActivity as FragmentActivity
     activity.supportFragmentManager
       .beginTransaction()
       .replace(reactNativeViewId, myFragment, reactNativeViewId.toString())
       .commit()
+
+    val clientid = "mOBYul18quffrBDuq2IACKtVuLbUzXIPye5S3bq5"
+    val programID = "7b7aa007-4a9b-497a-9c55-ec819a91b475"
+
+
+    sdkConfig = EmBetSDKConfig(reactContext, clientid, null, null, enableSegmentation = false)
+    val embetSDk = EmBetSDK(sdkConfig = sdkConfig!!)
+     myFragment.createNewSession(embetSDk, programSession = ProgramSession(programID))
   }
 
   fun setupLayout(view: View) {

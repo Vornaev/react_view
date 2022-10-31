@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { ReactViewView, TestFragmentManager } from 'react-native-react-view';
 import { requireNativeComponent } from 'react-native';
 import {
@@ -31,11 +31,15 @@ export default function App() {
      }, []);
 
   return (
-
-
-      <ReactViewView  style={{                                                             // converts dpi to px, provide desired height
+    
+      <ReactViewView clientId = "viktor"  style={{   
+                  display:'flex',
+                  justifyContent:'center',
+                   backgroundColor:'#000',
                     height: PixelRatio.getPixelSizeForLayoutSize(400),
-                     width: PixelRatio.getPixelSizeForLayoutSize(550)   }}  ref={ref}/>
+                     width: PixelRatio.getPixelSizeForLayoutSize(350)   ,}}  ref={ref}/>
+
+    
   );
 }
 
