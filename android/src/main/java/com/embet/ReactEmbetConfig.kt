@@ -1,5 +1,6 @@
 package com.embet
 
+import android.content.Context
 import com.facebook.react.bridge.ReactApplicationContext
 import com.livelike.mobile.embet.data.EmBetSDKConfig
 
@@ -14,7 +15,7 @@ object ReactEmbetConfigurator {
   var enableSegmentation : Boolean = false
 
 
-  fun getSDKConfig(context : ReactApplicationContext) : EmBetSDKConfig? {
+  fun getSDKConfig(context : Context) : EmBetSDKConfig? {
     return if (clientID == null) {
         null
     }

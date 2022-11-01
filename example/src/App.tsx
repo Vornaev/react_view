@@ -32,6 +32,7 @@ export default function App() {
 
   return (
     
+    <View style={styles.container}>
       <ReactViewView  style={{   
                   display:'flex',
                   justifyContent:'center',
@@ -39,7 +40,7 @@ export default function App() {
                     height: PixelRatio.getPixelSizeForLayoutSize(400),
                      width: PixelRatio.getPixelSizeForLayoutSize(350)   ,}}  ref={ref}/>
 
-    
+  </View>
   );
 }
 

@@ -30,9 +30,8 @@ class TestFragmentManager(
 ) : ViewGroupManager<FrameLayout>() {
   private var propWidth : Int? = null
   private var propHeight : Int? = null
-  private val embetFragment by lazy { EmBetReactWidgetFragment() }
+  private val embetFragment = EmBetReactWidgetFragment()
   private var embetSDK : EmBetSDK? = null
-
 
   override fun getName() = "TestFragmentManager"
 
@@ -103,7 +102,9 @@ class TestFragmentManager(
       .replace(reactNativeViewId, embetFragment, reactNativeViewId.toString())
       .commit()
 
-      testSDK()
+
+
+      //testSDK()
       //connectSDK()
   }
 
@@ -112,10 +113,12 @@ class TestFragmentManager(
 
 
     val sdkConfig = ReactEmbetConfigurator.getSDKConfig(reactContext)
+
     sdkConfig?.let { config ->
 
       embetSDK = EmBetSDK(config)
       ReactEmbetConfigurator.programID?.let {
+
         embetFragment.createNewSession(requireNotNull(embetSDK), programSession = ProgramSession(it))
 
       }
@@ -126,12 +129,14 @@ class TestFragmentManager(
     val clientid = "mOBYul18quffrBDuq2IACKtVuLbUzXIPye5S3bq5"
     val programID = "7b7aa007-4a9b-497a-9c55-ec819a91b475"
 
-    ReactEmbetConfigurator.clientID = clientid
-    ReactEmbetConfigurator.programID = programID
+
+    ReactEmbetConfigurator.clientID = CLIENT_ID
+    ReactEmbetConfigurator.programID = PROGRAM_ID
+    ReactEmbetConfigurator.authToken = ACESS_TOK
 
     connectSDK()
 
-    //android.os.Handler().postDelayed(Runnable { embetFragment.displayWidget(demo_json)  }, 5000)
+
 
 
   }
@@ -162,12 +167,13 @@ class TestFragmentManager(
     view.layout(0, 0, width, height)
   }
 
-  companion object {
+ private companion object {
     private const val REACT_CLASS = "TestFragmentManager"
     private const val COMMAND_CREATE = 1
 
     private val CLIENT_ID = "RuHpZaHvgP252o0oMw75cmaZAQ1pjG34UdyyqDF2"
     private val PROGRAM_ID = "4e9c93eb-8863-4df1-beea-e9ba10fe61aa"
+    private val ACESS_TOK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJibGFzdHJ0IiwiaWQiOiJlYjA4MzY3NS1kN2YyLTQyZGYtOGZkYS03ZjVkYjIwN2JhOGMiLCJpYXQiOjE2NTk2MjUxMTMsImFjY2Vzc190b2tlbiI6ImZjM2I3NmJiODkzYWJhODg4MTc0NmVlMmUwYTlkNjVjMGU0NDc0MmMiLCJjbGllbnRfaWQiOiJSdUhwWmFIdmdQMjUybzBvTXc3NWNtYVpBUTFwakczNFVkeXlxREYyIn0.sh9BgEmvvfqI7prxEJzetwKF6ScgcFquFlVxKsgyV9M"
 
     val demo_json = "{\n" +
       "  \"url\": \"https://cf-blast.livelikecdn.com/api/v1/text-predictions/74bca9b6-a507-4194-8229-4fdc7a8b3e6a/\",\n" +
