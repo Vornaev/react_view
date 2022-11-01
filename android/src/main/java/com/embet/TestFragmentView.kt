@@ -13,6 +13,7 @@ class TestFragmentView(context: Context) : FrameLayout(context) {
     setPadding(16,16,16,16)
     setBackgroundColor(Color.BLUE)
 
+
     // add default text view
     addView(TextView(context).apply {
       width = android.view.ViewGroup.LayoutParams.MATCH_PARENT

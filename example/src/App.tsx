@@ -31,29 +31,26 @@ export default function App() {
      }, []);
 
   return (
-    
-      <ReactViewView clientId = "viktor"  style={{   
-                  display:'flex',
-                  justifyContent:'center',
-                   backgroundColor:'#000',
-                    height: PixelRatio.getPixelSizeForLayoutSize(400),
-                     width: PixelRatio.getPixelSizeForLayoutSize(350)   ,}}  ref={ref}/>
+    <View style = {styles.container}>
 
-    
+      <ReactViewView  style={styles.reactWidget}  ref={ref}/>
+
+
+  </View>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop:50,
+
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
+  reactWidget: {
+   marginTop:200,
+    flex:0.7
+  }
 });
 
 

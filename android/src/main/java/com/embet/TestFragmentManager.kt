@@ -1,6 +1,7 @@
 package com.embet
 
 import android.graphics.Color
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Choreographer
 import android.view.View
@@ -10,18 +11,15 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
-import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.uimanager.annotations.ReactPropGroup
-import com.facebook.react.views.image.ReactImageView
 import com.livelike.mobile.embet.data.EmBetSDKConfig
 import com.livelike.mobile.embet.data.internal.EmBetSDK
 import com.livelike.mobile.embet.fragment.EmBetReactWidgetFragment
-import com.livelike.mobile.embet.publicapi.EmBetAccessTokenDelegate
-import com.livelike.mobile.embet.publicapi.EmBetInstance
 import com.livelike.mobile.embet.publicapi.ProgramSession
+
 
 class TestFragmentManager(
   private val reactContext: ReactApplicationContext
@@ -30,6 +28,7 @@ class TestFragmentManager(
   private var propHeight: Int? = null
 
   private var sdkConfig : EmBetSDKConfig? = null
+  private var frameLayout : FrameLayout? = null
 
   override fun getName() = "TestFragmentManager"
 
@@ -38,6 +37,7 @@ class TestFragmentManager(
    */
   override fun createViewInstance(reactContext: ThemedReactContext) =
     FrameLayout(reactContext).apply {
+      frameLayout = this
     }
 
   /**
@@ -92,6 +92,8 @@ class TestFragmentManager(
    */
   fun createFragment(root: FrameLayout, reactNativeViewId: Int) {
     val parentView = root.findViewById<ViewGroup>(reactNativeViewId)
+
+
     setupLayout(parentView)
 
     val myFragment = EmBetReactWidgetFragment()
@@ -118,6 +120,7 @@ class TestFragmentManager(
         manuallyLayoutChildren(view)
         view.viewTreeObserver.dispatchOnGlobalLayout()
         Choreographer.getInstance().postFrameCallback(this)
+
       }
     })
   }
@@ -127,14 +130,22 @@ class TestFragmentManager(
    */
   private fun manuallyLayoutChildren(view: View) {
     // propWidth and propHeight coming from react-native props
-    val width = requireNotNull(propWidth)
-    val height = requireNotNull(propHeight)
+//    val width = requireNotNull(propWidth)
+//    val height = requireNotNull(propHeight)
+//
+    val displayMetrics = DisplayMetrics()
+    val size = reactContext.currentActivity!!.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics)
+
+
+    val height = frameLayout?.height ?: displayMetrics.heightPixels
+    val width = frameLayout?.width ?:  displayMetrics.widthPixels
 
     view.measure(
       View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
       View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
 
-    view.layout(0, 0, width, height)
+
+    view.layout(0, 0, width,  height)
   }
 
   companion object {
