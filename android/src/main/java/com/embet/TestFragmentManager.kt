@@ -30,8 +30,9 @@ class TestFragmentManager(
 ) : ViewGroupManager<FrameLayout>() {
   private var propWidth : Int? = null
   private var propHeight : Int? = null
-  private val embetFragment = EmBetReactWidgetFragment()
   private var embetSDK : EmBetSDK? = null
+
+  private val embetFragment = EmBetReactWidgetFragment()
 
   override fun getName() = "TestFragmentManager"
 
@@ -65,12 +66,12 @@ class TestFragmentManager(
 
   @ReactProp(name = "clientId")
   fun setClientID(view : FrameLayout, clientID : String) {
-   // ReactEmbetConfigurator.clientID = clientID
+    ReactEmbetConfigurator.clientID = clientID
   }
 
   @ReactProp(name = "programId")
   fun setProgramID(view : FrameLayout, programID : String) {
-    //ReactEmbetConfigurator.programID = programID
+    ReactEmbetConfigurator.programID = programID
   }
 
 
@@ -123,6 +124,8 @@ class TestFragmentManager(
 
       }
     }
+
+    ReactEmbetConfigurator.SDK = embetSDK
   }
 
   private fun testSDK(){
@@ -260,4 +263,6 @@ class TestFragmentManager(
       "\n" +
       "\n"
   }
+
+
 }

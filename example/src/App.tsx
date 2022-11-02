@@ -31,9 +31,9 @@ export default function App() {
      }, []);
 
   return (
-    
+
     <View style={styles.container}>
-      <ReactViewView  style={{   
+      <ReactViewView  style={{
                   display:'flex',
                   justifyContent:'center',
                    backgroundColor:'#000',
