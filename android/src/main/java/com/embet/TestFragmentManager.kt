@@ -97,7 +97,7 @@ class TestFragmentManager(
     setupLayout(parentView)
 
 
-    val activity = reactContext.currentActivity as FragmentActivity
+    val activity = reactContext.currentActivity as FragmentActivitym
     activity.supportFragmentManager
       .beginTransaction()
       .replace(reactNativeViewId, embetFragment, reactNativeViewId.toString())

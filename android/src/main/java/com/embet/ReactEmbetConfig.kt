@@ -4,6 +4,8 @@ import android.content.Context
 import com.facebook.react.bridge.ReactApplicationContext
 import com.livelike.mobile.embet.data.EmBetSDKConfig
 import com.livelike.mobile.embet.data.internal.EmBetSDK
+import com.livelike.mobile.embet.publicapi.EmBetContentSession
+import com.livelike.mobile.embet.publicapi.ProgramSession
 
 object ReactEmbetConfigurator {
 
@@ -15,33 +17,73 @@ object ReactEmbetConfigurator {
 
   var enableSegmentation : Boolean = false
 
-  var SDK:EmBetSDK? = null
+  var SDK : EmBetSDK? = null
 
-
+  var session : EmBetContentSession? = null
 
 
   fun getSDKConfig(context : Context) : EmBetSDKConfig? {
-    return if (clientID == null) {
-        null
-    }
-    else {
-      EmBetSDKConfig(context, requireNotNull(clientID), authToken, null, enableSegmentation = false)
-    }
+      return  clientID?.let { EmBetSDKConfig(context, requireNotNull(clientID), authToken, null, enableSegmentation = false)}
   }
 
-  fun canCreateSession():Boolean{
-    return  false
+  fun createSession(programID : String) {
+    session = SDK?.createNewSession(ProgramSession(programID))
+  }
+
+  fun canCreateSession() : Boolean {
+    return false
   }
 
   fun getReason() : String {
-    if(clientID == null) return "Missing client iD"
+    if (clientID == null) return "Missing client iD"
     else return "Missing config ids"
   }
 }
 
-class EmbetAdmin(){
+class EmbetAdmin() {
 
-  var sdk : EmBetSDK? =null
+  var sdk : EmBetSDK? = null
 
 
 }
+
+
+
+
+interface ReactEmbetAccessTokenDelegate{
+
+  fun getToken() :String
+
+  fun setToken(token:String)
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
