@@ -33,8 +33,8 @@ export default function App() {
   return (
     <View style = {styles.container}>
 
-      <ReactViewView style={[styles.container, {
-                             transform: [{ scale: 0.8 }]
+      <ReactViewView style={[styles.reactWidget, {
+                             transform: [{ scale: 0.9 } ]
                            }]}    ref={ref}/>
 
 
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
   },
   reactWidget: {
-    flex:0.6,
+    flex:1,
     backgroundColor: '#000'
   }
 });
