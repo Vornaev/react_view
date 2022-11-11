@@ -1,29 +1,21 @@
 package com.embet
 
-import android.graphics.Color
-import android.util.Log
+import android.util.DisplayMetrics
 import android.view.Choreographer
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
-import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.uimanager.annotations.ReactPropGroup
-import com.facebook.react.views.image.ReactImageView
 import com.livelike.mobile.embet.data.EmBetSDKConfig
 import com.livelike.mobile.embet.data.internal.EmBetSDK
 import com.livelike.mobile.embet.fragment.EmBetReactWidgetFragment
-import com.livelike.mobile.embet.publicapi.EmBetAccessTokenDelegate
-import com.livelike.mobile.embet.publicapi.EmBetContentSession
-import com.livelike.mobile.embet.publicapi.EmBetInstance
 import com.livelike.mobile.embet.publicapi.ProgramSession
-import java.util.logging.Handler
 
 class TestFragmentManager(
   private val reactContext : ReactApplicationContext
@@ -32,16 +24,21 @@ class TestFragmentManager(
   private var propHeight : Int? = null
   private var embetSDK : EmBetSDK? = null
 
+
+
   private val embetFragment = EmBetReactWidgetFragment()
+  private var frameLayout : FrameLayout? = null
 
   override fun getName() = "TestFragmentManager"
 
   /**
    * Return a FrameLayout which will later hold the Fragment
    */
-  override fun createViewInstance(reactContext : ThemedReactContext) =
+  override fun createViewInstance(reactContext: ThemedReactContext) =
     FrameLayout(reactContext).apply {
+      frameLayout = this
     }
+
 
   /**
    * Map the "create" command to an integer
@@ -83,11 +80,11 @@ class TestFragmentManager(
 //
 //  }
 
-  @ReactPropGroup(names = ["width", "height"], customType = "Style")
-  fun setStyle(view : FrameLayout, index : Int, value : Int) {
-    if (index == 0) propWidth = value
-    if (index == 1) propHeight = value
-  }
+//  @ReactPropGroup(names = ["width", "height"], customType = "Style")
+//  fun setStyle(view : FrameLayout, index : Int, value : Int) {
+//    if (index == 0) propWidth = value
+//    if (index == 1) propHeight = value
+//  }
 
   /**
    * Replace your React Native view with a custom fragment
@@ -97,7 +94,7 @@ class TestFragmentManager(
     setupLayout(parentView)
 
 
-    val activity = reactContext.currentActivity as FragmentActivitym
+    val activity = reactContext.currentActivity as FragmentActivity
     activity.supportFragmentManager
       .beginTransaction()
       .replace(reactNativeViewId, embetFragment, reactNativeViewId.toString())
@@ -105,7 +102,7 @@ class TestFragmentManager(
 
 
 
-      //testSDK()
+      testSDK()
       //connectSDK()
   }
 
@@ -133,9 +130,8 @@ class TestFragmentManager(
     val programID = "7b7aa007-4a9b-497a-9c55-ec819a91b475"
 
 
-    ReactEmbetConfigurator.clientID = CLIENT_ID
-    ReactEmbetConfigurator.programID = PROGRAM_ID
-    ReactEmbetConfigurator.authToken = ACESS_TOK
+    ReactEmbetConfigurator.clientID = clientid
+    ReactEmbetConfigurator.programID = programID
 
     connectSDK()
 
@@ -159,15 +155,19 @@ class TestFragmentManager(
    */
   private fun manuallyLayoutChildren(view : View) {
     // propWidth and propHeight coming from react-native props
-    val width = requireNotNull(view.layoutParams.width)
-    val height = requireNotNull(view.layoutParams.height)
+    val displayMetrics = DisplayMetrics()
+    val size = reactContext.currentActivity!!.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics)
+
+
+    val height = frameLayout?.height ?: displayMetrics.heightPixels
+    val width = frameLayout?.width ?:  displayMetrics.widthPixels
 
     view.measure(
       View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-      View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
-    )
+      View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
 
-    view.layout(0, 0, width, height)
+
+    view.layout(0, 0, width,  height)
   }
 
  private companion object {

@@ -30,6 +30,9 @@ export default function App() {
        createFragment(viewId);
      }, []);
 
+
+
+
   return (
 
     <View style={styles.container}>
